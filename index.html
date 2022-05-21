@@ -16,15 +16,30 @@
         go.run(result.instance)
     })()
 
-    function doConvert() {
+    function doConvert(action) {
         const data = document.getElementById("data").value
-        if (data !== "") {
-            const result = window.formatJSON(data)
-            document.getElementById("output").innerText = result
+        if (data == "") {
+            return
         }
+        let result
+        switch(action){
+            case 'jsonFormat':
+                result = window.formatJSON(data)
+                break
+            case 'base64Encode':
+                result = window.base64Encode(data)
+                break
+            case 'base64Decode':
+                result = window.base64Decode(data)
+                break
+        }
+        document.getElementById("output").innerText = result
     }
 </script>
-<button type="button" onclick="doConvert()">Convert</button><br/>
+<button type="button" onclick="doConvert('jsonFormat')">JSONFormat</button>
+<button type="button" onclick="doConvert('base64Encode')">Base64Encode</button>
+<button type="button" onclick="doConvert('base64Decode')">Base64Decode</button>
+<br/>
 <textarea id="data" style="margin: 0px;width: 100%;height: 100px;">
 {"tips":"Hello great developers!"}
 </textarea>
