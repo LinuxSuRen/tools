@@ -23,7 +23,6 @@ func (o *option) runE(cmd *cobra.Command, args []string) (err error) {
 	var data []byte
 	if files, err = filepath.Glob(o.pattern); err == nil {
 		for _, metaFile := range files {
-			fmt.Println(metaFile)
 			if data, err = ioutil.ReadFile(metaFile); err != nil {
 				fmt.Println("failed to read file", metaFile, err)
 				continue
