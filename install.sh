@@ -3,7 +3,7 @@
 ARCH=$(uname -m)
 if [[ ${ARCH} == 'x86_64' ]]; then
   ARCH=amd64
-elif [[ ${ARCH} == 'armv6l' ]]
+elif [[ ${ARCH} == 'armv6l' ]]; then
   ARCH=arm6
 else
   echo "do not support this arch"
