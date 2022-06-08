@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 ARCH=$(uname -m)
-if [[ ${ARCH} == 'x86_64' ]]; then
+if [ ${ARCH} == 'x86_64' ]; then
   ARCH=amd64
-elif [[ ${ARCH} == 'armv6l' ]]; then
+elif [ ${ARCH} == 'armv6l' ]; then
   ARCH=arm6
 else
   echo "do not support this arch"
