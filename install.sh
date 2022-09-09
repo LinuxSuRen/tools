@@ -12,7 +12,7 @@ else
 fi
 
 which curl
-if [ $0 = 0 ]; then
+if [ $? = 0 ]; then
   curl -L https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-linux-${ARCH}.tar.gz | tar xzv hd
 else
   wget https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-linux-${ARCH}.tar.gz -O - | tar xzv hd
