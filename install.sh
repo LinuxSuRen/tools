@@ -5,6 +5,8 @@ if [ ${ARCH} == 'x86_64' ]; then
   ARCH=amd64
 elif [ ${ARCH} == 'armv6l' ]; then
   ARCH=arm6
+elif [ ${ARCH} == 'arm64' ]; then
+  ARCH=arm64
 else
   echo "do not support this arch"
   echo "please feel free to help improve this at https://github.com/LinuxSuRen/tools/blob/master/install.sh"
