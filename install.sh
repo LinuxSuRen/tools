@@ -31,6 +31,6 @@ else
   wget https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz -O - | tar xzv hd
 fi
 
-mv hd /usr/bin/hd
+sudo mv hd /usr/bin/hd
 hd fetch
 hd completion
