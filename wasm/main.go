@@ -14,6 +14,7 @@ func main() {
 	js.Global().Set("formatJSON", js.FuncOf(formatJSON))
 	js.Global().Set("base64Encode", js.FuncOf(base64Encode))
 	js.Global().Set("base64Decode", js.FuncOf(base64Decode))
+	js.Global().Set("generatePassword", js.FuncOf(generatePassword))
 
 	<-c
 }
@@ -38,6 +39,14 @@ func base64Decode(this js.Value, args []js.Value) interface{} {
 	var txt string
 	if len(args) > 0 {
 		txt = pkg.Base64Decode(args[0].String())
+	}
+	return js.ValueOf(txt)
+}
+
+func generatePassword(this js.Value, args []js.Value) interface{} {
+	var txt string
+	if len(args) >= 3 {
+		txt = pkg.GeneratePassword(args[0].Int(), args[1].Bool(), args[2].Bool())
 	}
 	return js.ValueOf(txt)
 }

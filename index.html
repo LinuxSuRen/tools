@@ -37,6 +37,15 @@
         }
         document.getElementById("output").innerText = result
     }
+
+    function generateSecret() {
+        const length = document.getElementById('length').value
+        const special = document.getElementById('password-special').value
+        const number = document.getElementById('password-number').value
+
+        const result = window.generatePassword(Number(length),special==='on',number==='on')
+        document.getElementById("password-result").innerText = result
+    }
 </script>
 <a class="github-fork-ribbon" target="_blank"
    href="https://github.com/linuxsuren/tools"
@@ -49,6 +58,15 @@
 {"tips":"Hello great developers!"}
 </textarea>
 <pre id="output"></pre>
+
+Generate Password:
+Length: <input id="length" value="8" type="text"/>
+Special: <input id="password-special" type="checkbox" checked=""/>
+Number: <input id="password-number" type="checkbox" checked=""/>
+<button type="button" onclick="generateSecret()">Generate</button>
+<br/>
+<textarea id="password-result"></textarea>
+
 </body>
 <div style="bottom: 5px; position: absolute;">
     <a href="https://linuxsuren.github.io/audacity-label-plugin" target="_blank">Audacity</a>
