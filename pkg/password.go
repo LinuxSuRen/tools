@@ -5,20 +5,38 @@ import (
 	"time"
 )
 
+const (
+	lowerLetters   = "abcdefghijklmnopqrstuvwxyz"
+	capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	numberLetters  = "0123456789"
+	specialLetters = "!@#$%^&*()"
+)
+
 // GeneratePassword generates a password with specific length
-func GeneratePassword(length int, special, number bool) (result string) {
+func GeneratePassword(length int, capital, special, number bool) (result string) {
 	rand.Seed(time.Now().UnixNano())
 
-	charset := "abcdefghijklmnopqrstuvwxyz"
 	if special {
-		charset += "!@#$%^&*()"
+		length--
+		c := specialLetters[rand.Intn(len(specialLetters))]
+		result = result + string(c)
 	}
 	if number {
-		charset += "0123456789"
+		length--
+		c := numberLetters[rand.Intn(len(numberLetters))]
+		result = result + string(c)
+	}
+	if capital {
+		length--
+		c := capitalLetters[rand.Intn(len(capitalLetters))]
+		result = result + string(c)
 	}
 
+	if length <= 0 {
+		length = 1
+	}
 	for i := 0; i < length; i++ {
-		c := charset[rand.Intn(len(charset))]
+		c := lowerLetters[rand.Intn(len(lowerLetters))]
 		result = result + string(c)
 	}
 	return
