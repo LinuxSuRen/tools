@@ -40,10 +40,11 @@
 
     function generateSecret() {
         const length = document.getElementById('length').value
-        const special = document.getElementById('password-special').value
-        const number = document.getElementById('password-number').value
+        const capital = document.getElementById('password-capital').checked
+        const special = document.getElementById('password-special').checked
+        const number = document.getElementById('password-number').checked
 
-        const result = window.generatePassword(Number(length),special==='on',number==='on')
+        const result = window.generatePassword(Number(length), capital, special, number)
         document.getElementById("password-result").innerText = result
     }
 </script>
@@ -61,6 +62,7 @@
 
 Generate Password:
 Length: <input id="length" value="8" type="text"/>
+Capital Letter: <input id="password-capital" type="checkbox" checked=""/>
 Special: <input id="password-special" type="checkbox" checked=""/>
 Number: <input id="password-number" type="checkbox" checked=""/>
 <button type="button" onclick="generateSecret()">Generate</button>

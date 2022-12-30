@@ -46,7 +46,7 @@ func base64Decode(this js.Value, args []js.Value) interface{} {
 func generatePassword(this js.Value, args []js.Value) interface{} {
 	var txt string
 	if len(args) >= 3 {
-		txt = pkg.GeneratePassword(args[0].Int(), args[1].Bool(), args[2].Bool())
+		txt = pkg.GeneratePassword(args[0].Int(), args[1].Bool(), args[2].Bool(), args[3].Bool())
 	}
 	return js.ValueOf(txt)
 }
