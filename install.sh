@@ -5,6 +5,8 @@ if [ ${ARCH} == 'x86_64' ]; then
   ARCH=amd64
 elif [ ${ARCH} == 'armv6l' ]; then
   ARCH=arm6
+elif [ ${ARCH} == 'armv7l' ]; then
+  ARCH=arm7
 elif [ ${ARCH} == 'arm64' ]; then
   ARCH=arm64
 else
