@@ -39,7 +39,7 @@ if ($(./hd version> /dev/null 2> /dev/null)); then
   sudo install hd /usr/bin/hd
   hd fetch
   hd completion
-  hd setup
+  echo "config the proxy with command: hd setup"
 else
   echo "hd was not downloaded successfully."
 fi
