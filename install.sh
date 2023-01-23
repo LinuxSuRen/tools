@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ARCH=$(uname -m)
 if [ ${ARCH} == 'x86_64' ]; then
@@ -26,13 +26,20 @@ else
   exit 2
 fi
 
-which curl
-if [ $? = 0 ]; then
+if [ -x "$(command -v curl)" ]; then
   curl -L https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz | tar xzv hd
-else
+elif [ -x "$(command -v wget)" ]; then
   wget https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz -O - | tar xzv hd
+else
+  echo "curl or wget is required to download hd."
+  exit 3
 fi
 
-sudo mv hd /usr/bin/hd
-hd fetch
-hd completion
+if ($(./hd version> /dev/null 2> /dev/null)); then
+  sudo install hd /usr/bin/hd
+  hd fetch
+  hd completion
+  hd setup
+else
+  echo "hd was not downloaded successfully."
+fi
