@@ -26,10 +26,24 @@ else
   exit 2
 fi
 
+address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
+PS3="Select GitHub address: "
+select lng in github ghproxy
+do
+    case $lng in
+        "github")
+            address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz;;
+        "ghproxy")
+           address=https://ghproxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz;;
+        *)
+           echo "Ooops";;
+    esac
+done
+
 if [ -x "$(command -v curl)" ]; then
-  curl -L https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz | tar xzv hd
+  curl -L $address | tar xzv hd
 elif [ -x "$(command -v wget)" ]; then
-  wget https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz -O - | tar xzv hd
+  wget $address -O - | tar xzv hd
 else
   echo "curl or wget is required to download hd."
   exit 3
