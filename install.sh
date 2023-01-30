@@ -26,21 +26,7 @@ else
   exit 2
 fi
 
-address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
-PS3="Select GitHub address: "
-select lng in github ghproxy
-do
-    case $lng in
-        "github")
-           address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
-           break;;
-        "ghproxy")
-           address=https://ghproxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
-           break;;
-        *)
-           echo "Ooops";;
-    esac
-done
+address=https://ghproxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
 
 if [ -x "$(command -v curl)" ]; then
   curl -L $address | tar xzv hd
