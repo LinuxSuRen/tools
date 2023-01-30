@@ -32,9 +32,11 @@ select lng in github ghproxy
 do
     case $lng in
         "github")
-            address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz;;
+           address=https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz;;
+           break;;
         "ghproxy")
            address=https://ghproxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz;;
+           break;;
         *)
            echo "Ooops";;
     esac
