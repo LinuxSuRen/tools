@@ -6,9 +6,30 @@
 <button type="button" id="start-camera-btn">打开摄像头</button>
 <button type="button" id="start-btn">开始录像</button>
 <button type="button" id="stop-btn">停止录像</button>
+<button type="button" id="auto-btn">自动录像</button>
 <button type="button" id="play-btn">播放视频</button>
 <button type="button" id="export-btn">导出视频</button>
-<video width="720" height="360" controls></video>
+时长：<input type="text" id="timeout" value="30">秒
+<div class="container">
+    <video width="720" height="360" controls></video>
+    <div class="overlayText">
+        <p id="topText"></p>
+    </div>
+</div>
+<style>
+.overlayText {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  z-index: 1;
+}
+
+#topText {
+  color: white;
+  font-size: 20px;
+  align-self: center;
+}
+</style>
 
 <script type="text/javascript">
 var body = document.getElementById('start-screen-btn');
@@ -40,12 +61,23 @@ body.addEventListener("click",async function(){
 const startCameraBtn = document.querySelector('#start-camera-btn');  // 打开摄像头按钮
 const startBtn = document.querySelector('#start-btn');  // 开始录像按钮
 const stopBtn = document.querySelector('#stop-btn');  // 停止录像按钮
+const autoBtn = document.querySelector('#auto-btn');  // 播放视频按钮
 const playBtn = document.querySelector('#play-btn');  // 播放视频按钮
 const exportBtn = document.querySelector('#export-btn');  // 导出视频按钮
+const timeoutInput = document.querySelector('#timeout');  // 导出视频按钮
 const videoEl = document.querySelector('video');  // 视频播放元素
 let videoData = [];  // 存放视频数据
 let  cameraStream = null;  // 存放媒体流
 let mediaRecorder = null;  // 存放媒体录制对象
+
+autoBtn.addEventListener('click', () => {
+    startBtn.click();
+    console.log(timeoutInput.value)
+    window.setTimeout(() => {
+        stopBtn.click();
+        alert('finished');
+    }, timeoutInput.value * 1000)
+})
 
 // 打开摄像头按钮点击
 startCameraBtn.addEventListener('click', () => {
