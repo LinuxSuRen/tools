@@ -13,7 +13,7 @@
 <button type="button" id="export-btn" disabled>导出视频</button>
 时长：<input type="text" id="timeout" value="30">秒
 <div class="container">
-    <video width="100%" height="100%" controls></video>
+    <video width="100%" height="90%" controls></video>
     <div class="overlayText">
         <p id="topText"></p>
     </div>
@@ -44,17 +44,17 @@ body.addEventListener("click",async function(){
     //录制
     var chunks = [];
     mediaRecorder.addEventListener('dataavailable', function(e) {
-    chunks.push(e.data)
+      chunks.push(e.data)
     })
 
     //停止
     mediaRecorder.addEventListener('stop', function(){
-    var blob = new Blob(chunks, {type: chunks[0].type});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'video.webm';
-    a.click();
+      var blob = new Blob(chunks, {type: chunks[0].type});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'video.webm';
+      a.click();
     })
     //手动启动
     mediaRecorder.start()
@@ -72,7 +72,8 @@ const videoEl = document.querySelector('video');  // 视频播放元素
 const topText = document.querySelector('#topText');
 const audio = document.querySelector('#audio');
 let videoData = [];  // 存放视频数据
-let  cameraStream = null;  // 存放媒体流
+let videoBlobData = null;
+let cameraStream = null;  // 存放媒体流
 let mediaRecorder = null;  // 存放媒体录制对象
 
 autoBtn.addEventListener('click', () => {
@@ -85,9 +86,8 @@ autoBtn.addEventListener('click', () => {
     window.setTimeout(() => {
         window.clearInterval(inter);
         stopBtn.click();
-        alert('finished');
         topText.innerText = '录制完成';
-    }, timeoutInput.value * 1000)
+    }, (Number(timeoutInput.value) + 1) * 1000)
 })
 
 stopCameraBtn.addEventListener('click', () => {
@@ -133,12 +133,13 @@ startBtn.addEventListener('click', () => {
 
   // 处理视频数据
   mediaRecorder.addEventListener('dataavailable', ev => {
+    videoData = []
     videoData.push(ev.data);
   });
 
   // 录制停止事件
   mediaRecorder.addEventListener('stop', () => {
-    videoData = new Blob(videoData);
+    videoBlobData = new Blob(videoData);
     exportBtn.disabled = false;
   });
   stopBtn.disabled = false;
@@ -151,11 +152,11 @@ stopBtn.addEventListener('click', () => {
 
 // 播放视频点击
 playBtn.addEventListener('click', () => {
-  if (videoData === null) return false;
+  if (videoBlobData === null) return false;
   // 清除 video 的媒体流
   videoEl.srcObject = null;
   // 把视频数据转为 URL 传给 video 的 src
-  videoEl.src = URL.createObjectURL(videoData);
+  videoEl.src = URL.createObjectURL(videoBlobData);
   // 播放视频
   videoEl.play();
   // 启用 video 的控制组件
@@ -166,10 +167,10 @@ playBtn.addEventListener('click', () => {
 
 // 导出视频按钮点击
 exportBtn.addEventListener('click', () => {
-  if (videoData === null) return false;
+  if (videoBlobData === null) return false;
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(videoData);
-  link.download = 'video.mp4';
+  link.href = URL.createObjectURL(videoBlobData);
+  link.download = 'video.webm';
   link.click();
 });
 </script>
