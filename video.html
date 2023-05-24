@@ -4,14 +4,16 @@
 <body>
 <button type="button" id="start-screen-btn">录屏</button>
 <button type="button" id="start-camera-btn">打开摄像头</button>
-<button type="button" id="start-btn">开始录像</button>
-<button type="button" id="stop-btn">停止录像</button>
-<button type="button" id="auto-btn">自动录像</button>
-<button type="button" id="play-btn">播放视频</button>
-<button type="button" id="export-btn">导出视频</button>
+<button type="button" id="stop-camera-btn" disabled>关闭摄像头</button>
+录音：<input type="checkbox" id="audio"></input>
+<button type="button" id="start-btn" disabled>开始录像</button>
+<button type="button" id="stop-btn" disabled>停止录像</button>
+<button type="button" id="auto-btn" disabled>自动录像</button>
+<button type="button" id="play-btn" disabled>播放视频</button>
+<button type="button" id="export-btn" disabled>导出视频</button>
 时长：<input type="text" id="timeout" value="30">秒
 <div class="container">
-    <video width="720" height="360" controls></video>
+    <video width="100%" height="100%" controls></video>
     <div class="overlayText">
         <p id="topText"></p>
     </div>
@@ -25,8 +27,8 @@
 }
 
 #topText {
-  color: white;
-  font-size: 20px;
+  color: red;
+  font-size: 30px;
   align-self: center;
 }
 </style>
@@ -59,6 +61,7 @@ body.addEventListener("click",async function(){
 });
 
 const startCameraBtn = document.querySelector('#start-camera-btn');  // 打开摄像头按钮
+const stopCameraBtn = document.querySelector('#stop-camera-btn');
 const startBtn = document.querySelector('#start-btn');  // 开始录像按钮
 const stopBtn = document.querySelector('#stop-btn');  // 停止录像按钮
 const autoBtn = document.querySelector('#auto-btn');  // 播放视频按钮
@@ -66,24 +69,37 @@ const playBtn = document.querySelector('#play-btn');  // 播放视频按钮
 const exportBtn = document.querySelector('#export-btn');  // 导出视频按钮
 const timeoutInput = document.querySelector('#timeout');  // 导出视频按钮
 const videoEl = document.querySelector('video');  // 视频播放元素
+const topText = document.querySelector('#topText');
+const audio = document.querySelector('#audio');
 let videoData = [];  // 存放视频数据
 let  cameraStream = null;  // 存放媒体流
 let mediaRecorder = null;  // 存放媒体录制对象
 
 autoBtn.addEventListener('click', () => {
     startBtn.click();
-    console.log(timeoutInput.value)
+    let timeout = timeoutInput.value;
+    const inter = window.setInterval(() => {
+        topText.innerText = '剩余 ' + --timeout + ' 秒';
+    }, 1000)
+
     window.setTimeout(() => {
+        window.clearInterval(inter);
         stopBtn.click();
         alert('finished');
+        topText.innerText = '录制完成';
     }, timeoutInput.value * 1000)
 })
 
+stopCameraBtn.addEventListener('click', () => {
+  window.localStream.getTracks().forEach(function(track) {
+    track.stop();
+  });
+})
 // 打开摄像头按钮点击
 startCameraBtn.addEventListener('click', () => {
   // 申请视频和音频的参数
   const constraints = {
-    audio: false,
+    audio: audio.checked,
     video: {
       width: 720,
       height: 360
@@ -92,12 +108,17 @@ startCameraBtn.addEventListener('click', () => {
   // 申请摄像头和麦克风权限
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     cameraStream = stream;
+    window.localStream = stream;
     // 禁用 video 的控制组件
     videoEl.controls = false;
     // 把媒体流传给 video 的 srcObject
     videoEl.srcObject = cameraStream;
     // 播放画面和声音
     videoEl.play();
+
+    stopCameraBtn.disabled = false;
+    startBtn.disabled = false;
+    autoBtn.disabled = false;
   }).catch(info => {
     alert('错误' + info);
   });
@@ -118,7 +139,9 @@ startBtn.addEventListener('click', () => {
   // 录制停止事件
   mediaRecorder.addEventListener('stop', () => {
     videoData = new Blob(videoData);
+    exportBtn.disabled = false;
   });
+  stopBtn.disabled = false;
 });
 
 // 停止录像按钮点击
