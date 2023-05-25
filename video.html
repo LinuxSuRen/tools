@@ -122,7 +122,6 @@ stopCameraBtn.addEventListener('click', () => {
 })
 // 打开摄像头按钮点击
 startCameraBtn.addEventListener('click', () => {
-  snd.play();
   // 申请视频和音频的参数
   const constraints = {
     audio: audio.checked,
@@ -145,6 +144,7 @@ startCameraBtn.addEventListener('click', () => {
     stopCameraBtn.disabled = false;
     startBtn.disabled = false;
     autoBtn.disabled = false;
+    snd.play();
   }).catch(info => {
     alert('错误' + info);
   });
