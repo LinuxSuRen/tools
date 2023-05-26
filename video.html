@@ -153,10 +153,22 @@
       });
     });
 
+    let options = {}
     // 开始录像按钮点击
     startBtn.addEventListener('click', () => {
       // 创建媒体录制
-      mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
+      if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+          options = {mimeType: 'video/webm; codecs=vp9', format: 'webm'};
+      } else if (MediaRecorder.isTypeSupported('video/webm')) {
+          options = {mimeType: 'video/webm', format: 'webm'};
+      } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+          options = {mimeType: 'video/mp4', videoBitsPerSecond : 100000, format: 'mp4'};
+      } else {
+          alert("no suitable mimetype found for this device");
+          return
+      }
+
+      mediaRecorder = new MediaRecorder(cameraStream, options);
       // 开始录制
       mediaRecorder.start();
 
@@ -199,7 +211,7 @@
       if (videoBlobData === null) return false;
       const link = document.createElement('a');
       link.href = URL.createObjectURL(videoBlobData);
-      link.download = 'video.webm';
+      link.download = 'video.' + options.format;
       link.click();
     });
   </script>
