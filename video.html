@@ -146,7 +146,11 @@
           height: 360
         }
       };
-      alert(document.querySelector('select#videoSource').selectedOptions[0].value)
+      const id = document.querySelector('select#videoSource').selectedOptions[0].value
+      if (id !== '') {
+        constraints.video.deviceId = {exact: id}
+      }
+
       // 申请摄像头和麦克风权限
       navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         cameraStream = stream;
