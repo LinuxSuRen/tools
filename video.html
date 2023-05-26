@@ -1,204 +1,208 @@
 <html>
+
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
-<button type="button" id="start-screen-btn">录屏</button>
-<button type="button" id="start-camera-btn">打开摄像头</button>
-<button type="button" id="stop-camera-btn" disabled>关闭摄像头</button>
-录音：<input type="checkbox" id="audio"></input>
-<button type="button" id="start-btn" disabled>开始录像</button>
-<button type="button" id="stop-btn" disabled>停止录像</button>
-<button type="button" id="auto-btn" disabled>自动录像</button>
-<button type="button" id="play-btn" disabled>播放视频</button>
-<button type="button" id="export-btn" disabled>导出视频</button>
-时长：<input type="text" id="timeout" value="30">秒
-<div class="container">
+  <button type="button" id="start-screen-btn">录屏</button>
+  <button type="button" id="start-camera-btn">打开摄像头</button>
+  <button type="button" id="stop-camera-btn" disabled>关闭摄像头</button>
+  录音：<input type="checkbox" id="audio"></input>
+  <button type="button" id="start-btn" disabled>开始录像</button>
+  <button type="button" id="stop-btn" disabled>停止录像</button>
+  <button type="button" id="auto-btn" disabled>自动录像</button>
+  <button type="button" id="play-btn" disabled>播放视频</button>
+  <button type="button" id="export-btn" disabled>导出视频</button>
+  时长：<input type="text" id="timeout" value="30">秒
+  <div class="container">
     <video width="100%" height="90%" controls></video>
     <div class="overlayText">
-        <p id="topText"></p>
+      <p id="topText"></p>
     </div>
-</div>
-<style>
-.overlayText {
-  position: absolute;
-  top: 30%;
-  left: 20%;
-  z-index: 1;
-}
+  </div>
+  <style>
+    .overlayText {
+      position: absolute;
+      top: 30%;
+      left: 20%;
+      z-index: 1;
+    }
 
-#topText {
-  color: red;
-  font-size: 100px;
-  align-self: center;
-}
+    #topText {
+      color: red;
+      font-size: 100px;
+      align-self: center;
+    }
 
-/* @media only screen and (min-device-width: 480px) {
+    /* @media only screen and (min-device-width: 480px) {
   button {
     width: 25%;
     height: 60px;
   }
 } */
-</style>
+  </style>
 
-<script type="text/javascript">
-var snd = new Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");  
+  <script type="text/javascript">
+    var snd = new Audio("data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA//uQZAUAB1WI0PZugAAAAAoQwAAAEk3nRd2qAAAAACiDgAAAAAAABCqEEQRLCgwpBGMlJkIz8jKhGvj4k6jzRnqasNKIeoh5gI7BJaC1A1AoNBjJgbyApVS4IDlZgDU5WUAxEKDNmmALHzZp0Fkz1FMTmGFl1FMEyodIavcCAUHDWrKAIA4aa2oCgILEBupZgHvAhEBcZ6joQBxS76AgccrFlczBvKLC0QI2cBoCFvfTDAo7eoOQInqDPBtvrDEZBNYN5xwNwxQRfw8ZQ5wQVLvO8OYU+mHvFLlDh05Mdg7BT6YrRPpCBznMB2r//xKJjyyOh+cImr2/4doscwD6neZjuZR4AgAABYAAAABy1xcdQtxYBYYZdifkUDgzzXaXn98Z0oi9ILU5mBjFANmRwlVJ3/6jYDAmxaiDG3/6xjQQCCKkRb/6kg/wW+kSJ5//rLobkLSiKmqP/0ikJuDaSaSf/6JiLYLEYnW/+kXg1WRVJL/9EmQ1YZIsv/6Qzwy5qk7/+tEU0nkls3/zIUMPKNX/6yZLf+kFgAfgGyLFAUwY//uQZAUABcd5UiNPVXAAAApAAAAAE0VZQKw9ISAAACgAAAAAVQIygIElVrFkBS+Jhi+EAuu+lKAkYUEIsmEAEoMeDmCETMvfSHTGkF5RWH7kz/ESHWPAq/kcCRhqBtMdokPdM7vil7RG98A2sc7zO6ZvTdM7pmOUAZTnJW+NXxqmd41dqJ6mLTXxrPpnV8avaIf5SvL7pndPvPpndJR9Kuu8fePvuiuhorgWjp7Mf/PRjxcFCPDkW31srioCExivv9lcwKEaHsf/7ow2Fl1T/9RkXgEhYElAoCLFtMArxwivDJJ+bR1HTKJdlEoTELCIqgEwVGSQ+hIm0NbK8WXcTEI0UPoa2NbG4y2K00JEWbZavJXkYaqo9CRHS55FcZTjKEk3NKoCYUnSQ0rWxrZbFKbKIhOKPZe1cJKzZSaQrIyULHDZmV5K4xySsDRKWOruanGtjLJXFEmwaIbDLX0hIPBUQPVFVkQkDoUNfSoDgQGKPekoxeGzA4DUvnn4bxzcZrtJyipKfPNy5w+9lnXwgqsiyHNeSVpemw4bWb9psYeq//uQZBoABQt4yMVxYAIAAAkQoAAAHvYpL5m6AAgAACXDAAAAD59jblTirQe9upFsmZbpMudy7Lz1X1DYsxOOSWpfPqNX2WqktK0DMvuGwlbNj44TleLPQ+Gsfb+GOWOKJoIrWb3cIMeeON6lz2umTqMXV8Mj30yWPpjoSa9ujK8SyeJP5y5mOW1D6hvLepeveEAEDo0mgCRClOEgANv3B9a6fikgUSu/DmAMATrGx7nng5p5iimPNZsfQLYB2sDLIkzRKZOHGAaUyDcpFBSLG9MCQALgAIgQs2YunOszLSAyQYPVC2YdGGeHD2dTdJk1pAHGAWDjnkcLKFymS3RQZTInzySoBwMG0QueC3gMsCEYxUqlrcxK6k1LQQcsmyYeQPdC2YfuGPASCBkcVMQQqpVJshui1tkXQJQV0OXGAZMXSOEEBRirXbVRQW7ugq7IM7rPWSZyDlM3IuNEkxzCOJ0ny2ThNkyRai1b6ev//3dzNGzNb//4uAvHT5sURcZCFcuKLhOFs8mLAAEAt4UWAAIABAAAAAB4qbHo0tIjVkUU//uQZAwABfSFz3ZqQAAAAAngwAAAE1HjMp2qAAAAACZDgAAAD5UkTE1UgZEUExqYynN1qZvqIOREEFmBcJQkwdxiFtw0qEOkGYfRDifBui9MQg4QAHAqWtAWHoCxu1Yf4VfWLPIM2mHDFsbQEVGwyqQoQcwnfHeIkNt9YnkiaS1oizycqJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
 
-var body = document.getElementById('start-screen-btn');
-body.addEventListener("click",async function(){
-    var stream = await navigator.mediaDevices.getDisplayMedia({video: true});
+    var body = document.getElementById('start-screen-btn');
+    body.addEventListener("click", async function () {
+      var stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
 
-    var mime = MediaRecorder.isTypeSupported("video/webm; codecs=vp9") ?"video/webm; codecs=vp9" :"video/webm";
-    var mediaRecorder = new MediaRecorder(stream, {mimeType: mime});
+      var mime = MediaRecorder.isTypeSupported("video/webm; codecs=vp9") ? "video/webm; codecs=vp9" : "video/webm";
+      var mediaRecorder = new MediaRecorder(stream, { mimeType: mime });
 
-    //录制
-    var chunks = [];
-    mediaRecorder.addEventListener('dataavailable', function(e) {
-      chunks.push(e.data)
-    })
+      //录制
+      var chunks = [];
+      mediaRecorder.addEventListener('dataavailable', function (e) {
+        chunks.push(e.data)
+      })
 
-    //停止
-    mediaRecorder.addEventListener('stop', function(){
-      var blob = new Blob(chunks, {type: chunks[0].type});
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'video.webm';
-      a.click();
-    })
-    //手动启动
-    mediaRecorder.start()
-});
+      //停止
+      mediaRecorder.addEventListener('stop', function () {
+        var blob = new Blob(chunks, { type: chunks[0].type });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'video.webm';
+        a.click();
+      })
+      //手动启动
+      mediaRecorder.start()
+    });
 
-const startCameraBtn = document.querySelector('#start-camera-btn');  // 打开摄像头按钮
-const stopCameraBtn = document.querySelector('#stop-camera-btn');
-const startBtn = document.querySelector('#start-btn');  // 开始录像按钮
-const stopBtn = document.querySelector('#stop-btn');  // 停止录像按钮
-const autoBtn = document.querySelector('#auto-btn');  // 播放视频按钮
-const playBtn = document.querySelector('#play-btn');  // 播放视频按钮
-const exportBtn = document.querySelector('#export-btn');  // 导出视频按钮
-const timeoutInput = document.querySelector('#timeout');  // 导出视频按钮
-const videoEl = document.querySelector('video');  // 视频播放元素
-const topText = document.querySelector('#topText');
-const audio = document.querySelector('#audio');
-let videoData = [];  // 存放视频数据
-let videoBlobData = null;
-let cameraStream = null;  // 存放媒体流
-let mediaRecorder = null;  // 存放媒体录制对象
+    const startCameraBtn = document.querySelector('#start-camera-btn');  // 打开摄像头按钮
+    const stopCameraBtn = document.querySelector('#stop-camera-btn');
+    const startBtn = document.querySelector('#start-btn');  // 开始录像按钮
+    const stopBtn = document.querySelector('#stop-btn');  // 停止录像按钮
+    const autoBtn = document.querySelector('#auto-btn');  // 播放视频按钮
+    const playBtn = document.querySelector('#play-btn');  // 播放视频按钮
+    const exportBtn = document.querySelector('#export-btn');  // 导出视频按钮
+    const timeoutInput = document.querySelector('#timeout');  // 导出视频按钮
+    const videoEl = document.querySelector('video');  // 视频播放元素
+    const topText = document.querySelector('#topText');
+    const audio = document.querySelector('#audio');
+    let videoData = [];  // 存放视频数据
+    let videoBlobData = null;
+    let cameraStream = null;  // 存放媒体流
+    let mediaRecorder = null;  // 存放媒体录制对象
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-async function playSound(count, func) {
-    for (let i = count; i > 0 ; i--) {
+    async function playSound(count, func) {
+      for (let i = count; i > 0; i--) {
         topText.innerText = i;
         snd.play();
         await sleep(1 * 1000);
+      }
+      func()
     }
-    func()
-}
 
-autoBtn.addEventListener('click', () => {
-    playSound(3, () => {
+    autoBtn.addEventListener('click', () => {
+      playSound(3, () => {
         startBtn.click();
         let timeout = timeoutInput.value;
         const inter = window.setInterval(() => {
-            topText.innerText = '剩余 ' + --timeout + ' 秒';
+          topText.innerText = '剩余 ' + --timeout + ' 秒';
         }, 1000)
 
         window.setTimeout(() => {
-            window.clearInterval(inter);
-            stopBtn.click();
-            topText.innerText = '录制完成';
-            snd.play();
+          window.clearInterval(inter);
+          stopBtn.click();
+          topText.innerText = '录制完成';
+          snd.play();
         }, (Number(timeoutInput.value) + 1) * 1000)
+      })
     })
-})
 
-stopCameraBtn.addEventListener('click', () => {
-  window.localStream.getTracks().forEach(function(track) {
-    track.stop();
-  });
-})
-// 打开摄像头按钮点击
-startCameraBtn.addEventListener('click', () => {
-  // 申请视频和音频的参数
-  const constraints = {
-    audio: audio.checked,
-    video: {
-      width: 720,
-      height: 360
-    }
-  };
-  // 申请摄像头和麦克风权限
-  navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-    cameraStream = stream;
-    window.localStream = stream;
-    // 禁用 video 的控制组件
-    videoEl.controls = false;
-    // 把媒体流传给 video 的 srcObject
-    videoEl.srcObject = cameraStream;
-    // 播放画面和声音
-    videoEl.play();
+    stopCameraBtn.addEventListener('click', () => {
+      window.localStream.getTracks().forEach(function (track) {
+        track.stop();
+      });
+    })
+    // 打开摄像头按钮点击
+    startCameraBtn.addEventListener('click', () => {
+      // 申请视频和音频的参数
+      const constraints = {
+        audio: audio.checked,
+        video: {
+          width: 720,
+          height: 360
+        }
+      };
+      // 申请摄像头和麦克风权限
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        cameraStream = stream;
+        window.localStream = stream;
+        // 禁用 video 的控制组件
+        videoEl.controls = false;
+        // 把媒体流传给 video 的 srcObject
+        videoEl.srcObject = cameraStream;
+        // 播放画面和声音
+        videoEl.play();
 
-    stopCameraBtn.disabled = false;
-    startBtn.disabled = false;
-    autoBtn.disabled = false;
-    snd.play();
-  }).catch(info => {
-    alert('错误' + info);
-  });
-});
+        stopCameraBtn.disabled = false;
+        startBtn.disabled = false;
+        autoBtn.disabled = false;
+        snd.play();
+      }).catch(info => {
+        alert('错误' + info);
+      });
+    });
 
-// 开始录像按钮点击
-startBtn.addEventListener('click', () => {
-  // 创建媒体录制
-  mediaRecorder = new MediaRecorder(cameraStream, {mimeType: 'video/webm'});
-  // 开始录制
-  mediaRecorder.start();
+    // 开始录像按钮点击
+    startBtn.addEventListener('click', () => {
+      // 创建媒体录制
+      mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
+      // 开始录制
+      mediaRecorder.start();
 
-  // 处理视频数据
-  mediaRecorder.addEventListener('dataavailable', ev => {
-    videoData = []
-    videoData.push(ev.data);
-  });
+      // 处理视频数据
+      mediaRecorder.addEventListener('dataavailable', ev => {
+        videoData = []
+        videoData.push(ev.data);
+      });
 
-  // 录制停止事件
-  mediaRecorder.addEventListener('stop', () => {
-    videoBlobData = new Blob(videoData, { type:"video/mp4" });
-    exportBtn.disabled = false;
-  });
-  stopBtn.disabled = false;
-});
+      // 录制停止事件
+      mediaRecorder.addEventListener('stop', () => {
+        videoBlobData = new Blob(videoData, { type: "video/mp4" });
+        exportBtn.disabled = false;
+      });
+      stopBtn.disabled = false;
+    });
 
-// 停止录像按钮点击
-stopBtn.addEventListener('click', () => {
-  mediaRecorder.stop();
-});
+    // 停止录像按钮点击
+    stopBtn.addEventListener('click', () => {
+      mediaRecorder.stop();
+    });
 
-// 播放视频点击
-playBtn.addEventListener('click', () => {
-  if (videoBlobData === null) return false;
-  // 清除 video 的媒体流
-  videoEl.srcObject = null;
-  // 把视频数据转为 URL 传给 video 的 src
-  videoEl.src = URL.createObjectURL(videoBlobData);
-  // 播放视频
-  videoEl.play();
-  // 启用 video 的控制组件
-  videoEl.controls = true;
-  // 删除媒体流
-  cameraStream = null;
-});
+    // 播放视频点击
+    playBtn.addEventListener('click', () => {
+      if (videoBlobData === null) return false;
+      // 清除 video 的媒体流
+      videoEl.srcObject = null;
+      // 把视频数据转为 URL 传给 video 的 src
+      videoEl.src = URL.createObjectURL(videoBlobData);
+      // 播放视频
+      videoEl.play();
+      // 启用 video 的控制组件
+      videoEl.controls = true;
+      // 删除媒体流
+      cameraStream = null;
+    });
 
-// 导出视频按钮点击
-exportBtn.addEventListener('click', () => {
-  if (videoBlobData === null) return false;
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(videoBlobData);
-  link.download = 'video.mp4';
-  link.click();
-});
-</script>
+    // 导出视频按钮点击
+    exportBtn.addEventListener('click', () => {
+      if (videoBlobData === null) return false;
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(videoBlobData);
+      link.download = 'video.mp4';
+      link.click();
+    });
+  </script>
 </body>
+
 </html>
