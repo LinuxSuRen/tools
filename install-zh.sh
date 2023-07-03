@@ -41,7 +41,7 @@ if ($(./hd version> /dev/null 2> /dev/null)); then
   sudo install hd /usr/bin/hd
   hd completion
   hd setup --proxy ghproxy.com --provider gitee
-  hd fetch
+  hd fetch --reset
   echo "config the proxy with command: hd setup"
 else
   echo "hd was not downloaded successfully."
