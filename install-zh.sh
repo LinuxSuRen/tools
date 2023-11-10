@@ -26,7 +26,7 @@ else
   exit 2
 fi
 
-address=https://ghproxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
+address=https://gh-proxy.com/https://github.com/linuxsuren/http-downloader/releases/latest/download/hd-${OS}-${ARCH}.tar.gz
 
 if [ -x "$(command -v curl)" ]; then
   curl -L $address | tar xzv hd
