@@ -12,6 +12,8 @@ func main() {
 	println("Go WebAssembly Initialized")
 
 	js.Global().Set("formatJSON", js.FuncOf(formatJSON))
+	js.Global().Set("ascendantJSON", js.FuncOf(ascendantJSON))
+	js.Global().Set("descendJSON", js.FuncOf(descendJSON))
 	js.Global().Set("base64Encode", js.FuncOf(base64Encode))
 	js.Global().Set("base64Decode", js.FuncOf(base64Decode))
 	js.Global().Set("generatePassword", js.FuncOf(generatePassword))
@@ -25,6 +27,14 @@ func formatJSON(this js.Value, args []js.Value) interface{} {
 		txt, _ = pkg.JsonFormat(args[0].String())
 	}
 	return js.ValueOf(txt)
+}
+
+func ascendantJSON(txt string) (result string, err error) {
+	return
+}
+
+func descendJSON(txt string) (result string, err error) {
+	return
 }
 
 func base64Encode(this js.Value, args []js.Value) interface{} {
