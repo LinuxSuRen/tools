@@ -35,6 +35,12 @@ pre {
             case 'jsonFormat':
                 result = window.formatJSON(data)
                 break
+            case 'ascendantJSON':
+                result = window.ascendantJSON(data)
+                break
+            case 'descendJSON':
+                result = window.descendJSON(data)
+                break
             case 'base64Encode':
                 result = window.base64Encode(data)
                 break
@@ -59,6 +65,8 @@ pre {
    href="https://github.com/linuxsuren/tools"
    data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
 <button type="button" onclick="doConvert('jsonFormat')">JSONFormat</button>
+<button type="button" onclick="doConvert('ascendant')">Ascendant</button>
+<button type="button" onclick="doConvert('descend')">Descend</button>
 <button type="button" onclick="doConvert('base64Encode')">Base64Encode</button>
 <button type="button" onclick="doConvert('base64Decode')">Base64Decode</button>
 <br/>
