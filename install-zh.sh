@@ -20,6 +20,8 @@ if [ ${OS} == 'Darwin' ]; then
   OS=darwin
 elif [ ${OS} == 'Linux' ]; then
   OS=linux
+elif [ ${OS} == 'MINGW64_NT-10.0-22621' ]; then
+  OS=Wdinwos
 else
   echo "do not support ${OS}"
   echo "please feel free to help improve this at https://github.com/LinuxSuRen/tools/blob/master/install.sh"
